@@ -33,23 +33,28 @@ export default function Auth({ onLogin }: AuthProps) {
       return;
     }
     
-    const users = await loadUsers();
-    const user = users.find(u => u.name === loginName && u.birth === loginBirth);
-    
-    if (!user) {
-      setError('일치하는 회원 정보가 없습니다.');
-      return;
+    try {
+      const users = await loadUsers();
+      const user = users.find(u => u.name === loginName && u.birth === loginBirth);
+      
+      if (!user) {
+        setError('일치하는 회원 정보가 없습니다.');
+        return;
+      }
+      
+      // Check validity
+      const now = new Date();
+      const validUntil = new Date(user.validUntil);
+      if (now > validUntil) {
+        setError('열람 유효기간이 만료되었습니다. 관리자에게 문의하세요.');
+        return;
+      }
+      
+      onLogin(user, false);
+    } catch (err) {
+      console.error(err);
+      setError('서버에 연결할 수 없습니다. 사내 보안망/방화벽에 의해 차단되었거나 네트워크가 불안정할 수 있습니다.');
     }
-    
-    // Check validity
-    const now = new Date();
-    const validUntil = new Date(user.validUntil);
-    if (now > validUntil) {
-      setError('열람 유효기간이 만료되었습니다. 관리자에게 문의하세요.');
-      return;
-    }
-    
-    onLogin(user, false);
   };
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -61,32 +66,37 @@ export default function Auth({ onLogin }: AuthProps) {
       return;
     }
     
-    const users = await loadUsers();
-    
-    // Check if user already exists
-    if (users.some(u => u.name === name && u.birth === birth)) {
-      setError('이미 가입된 회원입니다. 로그인해주세요.');
-      return;
+    try {
+      const users = await loadUsers();
+      
+      // Check if user already exists
+      if (users.some(u => u.name === name && u.birth === birth)) {
+        setError('이미 가입된 회원입니다. 로그인해주세요.');
+        return;
+      }
+      
+      // Valid for 1 month
+      const now = new Date();
+      const validUntil = new Date(now);
+      validUntil.setMonth(validUntil.getMonth() + 1);
+      
+      const newUser: User = {
+        id: Math.random().toString(36).substring(2, 9),
+        company,
+        name,
+        birth,
+        phone,
+        signupDate: now.toISOString(),
+        validUntil: validUntil.toISOString()
+      };
+      
+      await saveUser(newUser);
+      
+      onLogin(newUser, false);
+    } catch (err) {
+      console.error(err);
+      setError('서버에 연결할 수 없습니다. 사내 보안망/방화벽에 의해 차단되었거나 네트워크가 불안정할 수 있습니다.');
     }
-    
-    // Valid for 1 month
-    const now = new Date();
-    const validUntil = new Date(now);
-    validUntil.setMonth(validUntil.getMonth() + 1);
-    
-    const newUser: User = {
-      id: Math.random().toString(36).substring(2, 9),
-      company,
-      name,
-      birth,
-      phone,
-      signupDate: now.toISOString(),
-      validUntil: validUntil.toISOString()
-    };
-    
-    await saveUser(newUser);
-    
-    onLogin(newUser, false);
   };
 
   const handleAdminLogin = async (e: React.FormEvent) => {

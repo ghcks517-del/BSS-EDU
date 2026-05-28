@@ -19,6 +19,35 @@ export default function MainApp({ onLogout }: MainAppProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [pdfError, setPdfError] = useState(false);
   const [numPages, setNumPages] = useState<number | null>(null);
+  const [containerWidth, setContainerWidth] = useState(600);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      
+      // Calculate available width
+      const paddingX = isMobile ? 40 : 360; // Sidebar (320) + some padding
+      const maxAvailableWidth = window.innerWidth - paddingX;
+      
+      // Calculate available height
+      // Header, Toolbar, Top/Bottom padding ~ 180px
+      const maxAvailableHeight = window.innerHeight - 180;
+      
+      // A standard A4 document aspect ratio is ~1.414 (height = width * 1.414)
+      // We calculate the maximum width such that the height falls within maxAvailableHeight
+      const widthDicatedByHeight = Math.floor(maxAvailableHeight / 1.414);
+      
+      // Limit actual width to both horizontal max and vertical max considerations
+      const finalWidth = Math.min(maxAvailableWidth, widthDicatedByHeight, 800);
+      
+      // Ensure a reasonable minimum size
+      setContainerWidth(Math.max(finalWidth, 300));
+    };
+    
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Re-run error reset on page change
   useEffect(() => {
@@ -149,7 +178,7 @@ export default function MainApp({ onLogout }: MainAppProps) {
                 <button onClick={() => showPage(page + 1)}>다음 ›</button>
               </div>
             </div>
-            <div className="pageFrame overflow-hidden bg-gray-100 flex items-center justify-center rounded-xl relative" style={{ minHeight: '600px' }}>
+            <div className="pageFrame overflow-hidden bg-gray-100 flex items-center justify-center rounded-xl relative w-full h-full max-h-[80vh]">
               <TransformWrapper
                 key={page}
                 initialScale={1}
@@ -201,6 +230,7 @@ export default function MainApp({ onLogout }: MainAppProps) {
                     >
                       <Page
                         pageNumber={page}
+                        width={containerWidth}
                         renderTextLayer={true}
                         renderAnnotationLayer={true}
                         className="shadow-lg"

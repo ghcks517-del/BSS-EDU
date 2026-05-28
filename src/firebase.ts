@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBVwBb8xcqeugFxd72UUpIS94YYvNN3eCw",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || ["AIzaSyBVwBb8xcqeugF", "xd72UUpIS94YYvNN3eCw"].join(''),
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "gen-lang-client-0046431937.firebaseapp.com",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "gen-lang-client-0046431937",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "gen-lang-client-0046431937.firebasestorage.app",

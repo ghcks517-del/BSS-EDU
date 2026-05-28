@@ -1,0 +1,6 @@
+{
+  "name": "B·S·S E-Book 교안",
+  "description": "B·S·S E-Book 교안 뷰어 앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,351 @@
+@import "tailwindcss";
+
+/* Custom CSS from legacy GPT output format */
+:root {
+  --orange: #f6a531;
+  --orange2: #e58d1f;
+  --ink: #222;
+  --muted: #6f6a61;
+  --paper: #fffaf0;
+  --line: #ead9bd;
+  --danger: #d84b3f;
+  --green: #69a567;
+  --shadow: 0 16px 45px rgba(35, 26, 10, 0.16);
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #1a1a1a;
+  color: var(--ink);
+}
+button, input {
+  font: inherit;
+}
+button {
+  border: 0;
+  border-radius: 16px;
+  background: var(--orange);
+  color: #22170a;
+  padding: 12px 16px;
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(246, 165, 49, 0.25);
+  cursor: pointer;
+}
+button:hover {
+  filter: brightness(0.95);
+  transition: 0.2s ease-in-out;
+}
+#appShell {
+  width: 100%;
+  min-height: 100dvh;
+  background: linear-gradient(135deg, #fbf7ef, #eee8df);
+  position: relative;
+}
+@media (min-width: 860px) {
+  #appShell {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+  }
+}
+#drawer {
+  position: fixed;
+  z-index: 20;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-105%);
+  transition: 0.25s ease;
+  width: 80vw;
+  max-width: 320px;
+  background: #fffdf8;
+  border-right: 1px solid var(--line);
+  padding: 22px;
+  overflow: auto;
+}
+@media (min-width: 860px) {
+  #drawer {
+    position: sticky;
+    top: 0;
+    transform: none;
+    width: auto;
+    height: 100dvh;
+  }
+}
+.drawerOpen #drawer {
+  transform: translateX(0);
+}
+#drawerBackdrop {
+  display: none;
+}
+.drawerOpen #drawerBackdrop {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+@media (min-width: 860px) {
+  #drawerBackdrop, .drawerOpen #drawerBackdrop {
+    display: none;
+  }
+}
+.brandBlock {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.brandMark {
+  width: 48px;
+  height: 48px;
+  border-radius: 18px;
+  background: var(--orange);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 26px;
+}
+.brandBlock span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+.searchBox input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff7e9;
+  outline: none;
+}
+.searchBox input:focus {
+  border-color: var(--orange);
+}
+.tocGroup {
+  margin: 18px 0;
+}
+.tocGroup h3 {
+  font-size: 14px;
+  color: var(--orange2);
+  margin: 0 0 8px;
+}
+.tocItem {
+  width: 100%;
+  text-align: left;
+  margin: 6px 0;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: none;
+  border-radius: 14px;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.tocItem:hover {
+  background: #fffaf0;
+}
+.tocItem small {
+  color: var(--muted);
+}
+main {
+  min-width: 0;
+}
+.topBar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(255, 250, 240, 0.88);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+}
+@media (min-width: 860px) {
+  .topBar {
+    padding: 18px 24px;
+  }
+}
+#menuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  background: #fff;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+}
+@media (min-width: 860px) {
+  #menuBtn {
+    display: none;
+  }
+}
+.topBar h1 {
+  margin: 0;
+  font-size: 20px;
+}
+.topBar p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.topBar #installBtn {
+  margin-left: auto;
+  padding: 10px 14px;
+}
+.hero {
+  padding: 18px;
+  max-width: 1100px;
+  margin: auto;
+}
+.heroCard {
+  background: radial-gradient(circle at top right, #ffcf83, transparent 35%), #fffaf0;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.eyebrow {
+  color: var(--orange2);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+.hero h2 {
+  font-size: 29px;
+  line-height: 1.15;
+  margin: 12px 0;
+}
+@media (min-width: 860px) {
+  .hero {
+    padding: 28px;
+  }
+  .heroCard {
+    border-radius: 32px;
+    padding: 34px;
+    min-height: 300px;
+  }
+  .hero h2 {
+    font-size: 38px;
+  }
+}
+.hero p {
+  color: var(--muted);
+  max-width: 600px;
+}
+.hero button {
+  width: max-content;
+  margin-top: 10px;
+}
+.quickGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 22px;
+}
+@media (min-width: 860px) {
+  .quickGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.quickCard {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(30, 20, 0, 0.07);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.quickCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(30, 20, 0, 0.1);
+}
+.quickCard b {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+.quickCard span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.reader {
+  padding: 12px 10px 28px;
+}
+@media (min-width: 860px) {
+  .reader {
+    padding: 18px 22px 40px;
+  }
+}
+.readerToolbar {
+  max-width: 860px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.readerToolbar button {
+  box-shadow: none;
+  background: #fff;
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+.readerToolbar button:hover {
+  background: #fafafa;
+}
+#pageLabel {
+  font-weight: 900;
+  color: var(--muted);
+}
+.pageFrame {
+  max-width: 860px;
+  margin: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+}
+.pageFrame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  background: #fff;
+}
+@media (min-width: 860px) {
+  .pageFrame {
+    border-radius: 28px;
+    padding: 14px;
+  }
+  .pageFrame img {
+    border-radius: 18px;
+  }
+}
+.highlight {
+  border-color: var(--orange);
+  background: #fff5df;
+}
+.chrome-guide {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  letter-spacing: 0.3px;
+  display: none; /* Hide in modernized setup unless needed via specific prompt */
+}
+
+

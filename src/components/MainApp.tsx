@@ -101,7 +101,13 @@ export default function MainApp({ onLogout }: MainAppProps) {
   return (
     <div id="appShell" className={drawerOpen ? 'drawerOpen' : ''}>
       <aside id="drawer" aria-label="목차">
-        <div className="brandBlock">
+        <div 
+          className="brandBlock cursor-pointer" 
+          onClick={() => {
+            setView('home');
+            setDrawerOpen(false);
+          }}
+        >
           <div className="brandMark">B</div>
           <div>
             <strong>B·S·S E-Book 교안</strong>

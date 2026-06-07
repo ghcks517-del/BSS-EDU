@@ -22,6 +22,10 @@ export default function Auth({ onLogin }: AuthProps) {
   // Admin State
   const [adminPw, setAdminPw] = useState('');
   
+  // Privacy Modal State
+  const [isPrivacyAgreed, setIsPrivacyAgreed] = useState(false);
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
+
   const [error, setError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -63,6 +67,11 @@ export default function Auth({ onLogin }: AuthProps) {
     
     if (!company || !name || !birth || !phone) {
       setError('모든 정보를 입력해주세요.');
+      return;
+    }
+
+    if (!isPrivacyAgreed) {
+      setError('개인정보 수집 및 이용에 동의해주세요.');
       return;
     }
     
@@ -206,6 +215,18 @@ export default function Auth({ onLogin }: AuthProps) {
                 placeholder="010-0000-0000"
               />
             </div>
+            <div className="flex items-center gap-2 mt-2">
+              <input 
+                type="checkbox" 
+                id="privacy" 
+                checked={isPrivacyAgreed}
+                onChange={e => setIsPrivacyAgreed(e.target.checked)}
+                className="w-4 h-4 text-orange-400 border-gray-300 rounded focus:ring-orange-400"
+              />
+              <label htmlFor="privacy" className="text-sm text-gray-700">
+                <button type="button" onClick={() => setIsPrivacyModalOpen(true)} className="text-orange-500 underline font-medium">개인정보 수집 및 이용</button>에 동의합니다.
+              </label>
+            </div>
             <button type="submit" className="w-full bg-orange-400 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-orange-200 hover:bg-orange-500 transition-all mt-4">
               가입하고 열람하기
             </button>
@@ -215,6 +236,51 @@ export default function Auth({ onLogin }: AuthProps) {
               </button>
             </div>
           </form>
+        )}
+
+        {isPrivacyModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
+            <div className="bg-white rounded-2xl w-full max-w-[400px] max-h-[80vh] flex flex-col shadow-2xl relative">
+              <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+                <span className="font-bold text-gray-900 text-lg">개인정보 수집 및 이용 동의</span>
+                <button type="button" onClick={() => setIsPrivacyModalOpen(false)} className="text-gray-400 hover:text-gray-600 transition-colors">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="p-6 overflow-y-auto text-sm text-gray-600 space-y-4">
+                <p>B·S·S E-Book 안전보건 매뉴얼 서비스 제공을 위해 아래와 같이 개인정보를 수집 및 이용합니다.</p>
+                <div className="space-y-4 bg-gray-50 p-4 rounded-xl text-gray-700">
+                  <div>
+                    <h4 className="font-bold mb-1 text-gray-900">1. 수집하는 개인정보 항목</h4>
+                    <p>성명, 생년월일, 소속 업체명, 휴대전화번호</p>
+                  </div>
+                  <div>
+                    <h4 className="font-bold mb-1 text-gray-900">2. 수집 및 이용 목적</h4>
+                    <p>안전보건 매뉴얼 열람 권한 부여 및 본인 확인, 사용자 관리</p>
+                  </div>
+                  <div>
+                    <h4 className="font-bold mb-1 text-gray-900">3. 보유 및 이용 기간</h4>
+                    <p>가입일로부터 열람 유효기간과 동일</p>
+                  </div>
+                </div>
+                <p className="text-xs text-red-500 pt-2">※ 귀하는 개인정보 수집 및 이용에 동의하지 않을 권리가 있으나, 동의 거부 시 E-Book 열람 및 서비스 이용이 제한됩니다.</p>
+              </div>
+              <div className="p-4 border-t border-gray-100 bg-white rounded-b-2xl">
+                <button 
+                  type="button" 
+                  onClick={() => { 
+                    setIsPrivacyAgreed(true); 
+                    setIsPrivacyModalOpen(false); 
+                  }} 
+                  className="w-full bg-orange-400 text-white font-bold py-3.5 rounded-xl transition-colors hover:bg-orange-500 shadow-sm"
+                >
+                  동의합니다
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
         {mode === 'admin' && (
